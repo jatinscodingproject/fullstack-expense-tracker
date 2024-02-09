@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <title>Expense Tracker app</title>
+  </head>
+  <body>
+    <div class="booking_field">
+        <h1> Expense tracker app </h1>
+        <form action="/expense" method="POST" class="form" id="form">
+            <label>enter amount<input type="text" name="amount" id="amount"></label><br><br>
+            <label>Choose description<input type="text" name="description" id="description"></label><br><br>
+            <label>choose category
+                <select id="category" name="category">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">lunch</option>
+                    <option value="dinner">dinner</option>
+                    <option value="petrol">petrol</option>
+                    <option value="diesel">diesel</option>
+                    <option value="travel">travel</option>
+                </select>
+            </label><br><br>
+            <button type="submit" id="submit_expense_details" class="btn btn-success">
+                Add Expense
+            </button>
+        </form>
+    </div>
+    <div id="expense_details">
+      
+    </div>
+    <script src="../public/js/main.js"></script>
+  </body>
+</html>
