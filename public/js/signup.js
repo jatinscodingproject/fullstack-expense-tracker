@@ -24,6 +24,9 @@ async function adduserDetails(e) {
         } else {
             await axios.post(`http://localhost:4000/expense/signup`, UserDetails);
             console.log('User Added Successfully');
+            Username.value = ``
+            emailId.value = ``
+            password.value = ``
         }
     } catch (err) {
         console.log(err);

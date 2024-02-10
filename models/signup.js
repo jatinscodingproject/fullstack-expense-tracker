@@ -5,8 +5,8 @@ const sequelize = require('../utils/db');
 const UserDetails = sequelize.define('UserDetails',{
     id:{
         type:Sequelize.INTEGER,
-        allowNull:false,
         autoIncrement:true,
+        allowNull:false,
         primaryKey:true
     },
     UserName:{

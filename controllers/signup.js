@@ -29,18 +29,6 @@ exports.postUserSignupDetails = (req,res,next) => {
         })
 }
 
-exports.getUserDetails = (req,res,next) => {
-    UserDetails
-        .findAll()
-        .then(Details => {
-            console.log('Data extracted successfully')
-            res.json(Details)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-}
-
 exports.haveUser = (req,res,next) => {
     const emailId = req.query.emailId
     UserDetails
