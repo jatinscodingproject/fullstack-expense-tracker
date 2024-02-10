@@ -20,15 +20,13 @@ app.use(express.static('public'));
 
 app.use(express.static('images'));
 
-//app.use(express.json());
+app.use(express.json());
 
 app.use(express.urlencoded({extended:false}))
 
 app.use(expenseRoutes)
 
 app.use(signupRoutes)
-
-//app.use(errorController)
 
 sequelize
     .sync()

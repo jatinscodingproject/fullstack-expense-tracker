@@ -11,7 +11,7 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
         </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
-    <link rel="stylesheet" href="/css/signup.css">
+    <link rel="stylesheet" href="../public/css/signup.css">
 </head>
 
 <body>
@@ -20,7 +20,7 @@
     </div>
     <div class="container" id="form_container">
         <h1 id="heading_tag">Expense Tracker app Signup page</h1>
-        <form action="expense/signup" method = "Post">
+        <form action="expense/signup" method = "Post" id="form">
             <label>Enter Your Name: <input type="text" name="Username" id="Username" placeholder="Your name"></label><br><br>
             <label>Enter Your EmailId: <input type="text" name="emailId" id="emailId" placeholder="emailId"></label><br><br>
             <label>Enter Your Password:<input type="password" name="password" id="password" placeholder="password"></label><br><br>
@@ -28,6 +28,7 @@
             <button type="button" class="btn btn-danger" id="login_btn">Login</button>
         </form>
     </div>
+    <script src="../public/js/signup.js"></script>
 </body>
 
 </html>

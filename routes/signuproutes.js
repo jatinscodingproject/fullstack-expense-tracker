@@ -4,7 +4,9 @@ const router = express.Router();
 
 const signupController = require('../controllers/signup');
 
-router.get('/expense/signup',signupController.getUserPage);
+router.get('/expense/signup/data',signupController.getUserDetails);
+
+router.get('/expense/signup/data/exists',signupController.haveUser)
 
 router.post('/expense/signup',signupController.postUserSignupDetails);
 

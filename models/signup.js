@@ -15,7 +15,8 @@ const UserDetails = sequelize.define('UserDetails',{
     },
     emailId:{
         type:Sequelize.STRING,
-        allowNull:false
+        allowNull:false,
+        //unique:true
     },
     Password:{
         type:Sequelize.STRING,
