@@ -4,7 +4,7 @@ const router = express.Router();
 
 const expenseController = require('../controllers/expense')
 
-//router.get('/expense',expenseController.getUiPage);
+router.get('/expense',expenseController.getUiPage);
 
 router.get('/expense/data',expenseController.getAllExpenseDetails);
 

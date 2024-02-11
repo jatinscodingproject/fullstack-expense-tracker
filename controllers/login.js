@@ -1,24 +1,28 @@
 const UserDetails = require('../models/signup');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 
-exports.UserExistsInDb = async (req,res,next) => {
-    const emailId = req.body.emailId
-    const password = req.body.password
-    console.log(req.body)
-    try{
-        const User = await UserDetails
-            .findOne({where:{
-                emailId:emailId,
-            }})
-            const isPassword = bcrypt.compare(password,User.Password)
-            if(!User){
-                res.status(404).json({message:'User doesnt exists'});
-            }
-            if(!isPassword){
-                res.status(401).json({message:'password doesnt match'})
-            }
-            res.status(200).json({message:'Login successfully'})
-    }catch(err){
-        console.log(err)
+exports.UserExistsInDb = async (req, res, next) => {
+    const emailId = req.body.emailId;
+    const password = req.body.password;
+    console.log(req.body);
+    try {
+        const user = await UserDetails.findOne({ where: { emailId: emailId } });
+        if (!user) {
+            return res.status(404).json({ message: 'User does not exist' });
+        }
+        const isPasswordMatch = await bcrypt.compare(password, user.Password);
+        if (!isPasswordMatch) {
+            return res.status(401).json({ message: 'Password does not match' });
+        }
+        res.status(200).json({ message: 'Login successful' , redirectUrl:'/expense'})
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal server error' });
     }
 }
+
+// exports.getUiPage = (req, res, next) => {
+//     res.status(200).sendFile('index.html', {
+//         root: 'views'
+//     });
+// }

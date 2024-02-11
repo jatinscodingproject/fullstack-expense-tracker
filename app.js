@@ -16,6 +16,10 @@ const loginRoutes = require('./routes/loginroutes')
 
 const errorController = require('./controllers/error')
 
+const expenseModel = require('./models/expensedata')
+
+const userModel = require('./models/signup');
+
 app.use(cors());
 
 app.use(express.static('public'));
@@ -31,6 +35,8 @@ app.use(expenseRoutes)
 app.use(signupRoutes)
 
 app.use(loginRoutes)
+
+userModel.hasMany(expenseModel)
 
 sequelize
     .sync()

@@ -22,6 +22,7 @@ async function checkUserCredentials(e) {
         const statusCode = await userExists(emailId.value, password.value);
         if (statusCode === 200) {
             alert('Logging Successfully');
+            window.location.href = "http://localhost:4000/expense"
         } else if (statusCode === 401) {
             alert('Wrong credentials');
         } else if (statusCode === 404) {

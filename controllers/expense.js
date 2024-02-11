@@ -1,10 +1,11 @@
 const expenseDetails = require('../models/expensedata')
 
-// exports.getUiPage = (req,res,next) => {
-//     res.status(200).sendFile('index.html',{
-//         root:'views'
-//     })
-// }
+exports.getUiPage = (req, res, next) => {
+    res.status(200).sendFile('index.html', {
+        root: 'views'
+    });
+}
+
 
 exports.postExpenseData = (req,res,next) => {
     const amount = req.body.amount
