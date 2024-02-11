@@ -2,22 +2,20 @@ const UserDetails = require('../models/signup');
 
 exports.UserExistsInDb = (req,res,next) => {
     const emailId = req.body.emailId
-    const Password = req.body.password
-
+    const password = req.body.password
+    console.log(req.body)
     UserDetails
         .findOne({where:{
             emailId:emailId,
-            Password:Password
         }})
         .then(result => {
-            if(result){
-                console.log('User Exists in Db');
-                res.josn({exists:true})
+            if(!result){
+                res.status(404).json({message:'User doesnt exists'})
             }
-            else{
-                console.log('User doesnt Exists');
-                res.json({exists:false})
+            if(result.Password !== password){
+                res.status(401).json({message:'password doesnt match'})
             }
+            res.status(200).json({message:'User login successfully'})
         })
         .catch(err => {
             console.log(err)
