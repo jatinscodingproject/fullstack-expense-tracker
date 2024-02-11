@@ -1,5 +1,5 @@
 const UserDetails = require('../models/signup')
-
+const bcrypt = require('bcrypt')
 
 // exports.getUserPage = (req,res,next) => {
 //     res.status(200).sendFile('signup.html',{
@@ -7,26 +7,24 @@ const UserDetails = require('../models/signup')
 //     })
 // }
 
-exports.postUserSignupDetails = (req,res,next) => {
+exports.postUserSignupDetails = async (req,res,next) => {
     const Username = req.body.Username;
     const emailId = req.body.emailId;
     const password = req.body.password;
 
     console.log(req.body)
 
-    UserDetails
-        .create({
+    try {
+        const saltRounds = 10
+        const hashedPasswords = await bcrypt.hash(password,saltRounds);
+        await UserDetails.create({
             UserName:Username,
             emailId:emailId,
-            Password:password
+            Password:hashedPasswords
         })
-        .then(result => {
-            console.log('User created Successfully')
-            //console.log(result)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+    }catch(err){
+        console.log(err)
+    }
 }
 
 exports.haveUser = (req,res,next) => {
