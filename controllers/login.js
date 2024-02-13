@@ -1,5 +1,16 @@
 const UserDetails = require('../models/signup');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+
+exports.getUserLoginPage = (req,res,next) => {
+    res.status(200).sendFile('login.html',{
+        root:'views'
+    })
+}
+
+function generateSecretToken(id){
+    return jwt.sign({userId:id},'secretKey')
+}
 
 exports.UserExistsInDb = async (req, res, next) => {
     const emailId = req.body.emailId;
@@ -14,15 +25,11 @@ exports.UserExistsInDb = async (req, res, next) => {
         if (!isPasswordMatch) {
             return res.status(401).json({ message: 'Password does not match' });
         }
-        res.status(200).json({ message: 'Login successful' , redirectUrl:'/expense'})
+        const token = generateSecretToken(user.id)
+        res.status(200).json({ message: 'Login successful' , token:token})
+        console.log(token)
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Internal server error' });
     }
 }
-
-// exports.getUiPage = (req, res, next) => {
-//     res.status(200).sendFile('index.html', {
-//         root: 'views'
-//     });
-// }

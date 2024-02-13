@@ -37,6 +37,7 @@ app.use(signupRoutes)
 app.use(loginRoutes)
 
 userModel.hasMany(expenseModel)
+expenseModel.belongsTo(userModel)
 
 sequelize
     .sync()

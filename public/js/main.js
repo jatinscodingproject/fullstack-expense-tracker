@@ -48,7 +48,7 @@ function showDetails(expenseData){
                 const expenseDetails = {
                     amount:response.data.amount,
                     description:response.data.description,
-                    category:response.data.category
+                    category:response.data.category,
                 }
                 amount.value = expenseDetails.amount
                 description.value = expenseDetails.description
@@ -69,7 +69,7 @@ async function sendData(e){
     const expenseDetails = {
         amount:amount.value,
         description:description.value,
-        category:category.value
+        category:category.value,
     }
     try{
         let response = await axios.post('http://localhost:4000/expense',expenseDetails)
@@ -84,7 +84,11 @@ async function sendData(e){
 
 async function refresh(){
     try{
-        const response = await axios.get('http://localhost:4000/expense/data')
+        const token = localStorage.getItem('token')
+        console.log(token)
+        const response = await axios.get('http://localhost:4000/expense/data',{headers:{
+            'Authorization':token
+        }})
         showDetails(response.data)
     }catch(err){
         console.log(err)

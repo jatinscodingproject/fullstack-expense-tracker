@@ -4,11 +4,13 @@ const router = express.Router();
 
 const expenseController = require('../controllers/expense')
 
-router.get('/expense',expenseController.getUiPage);
+const authentication = require('../middleware/user')
 
-router.get('/expense/data',expenseController.getAllExpenseDetails);
+//router.get('/expense',expenseController.getUiPage);
 
 router.post('/expense',expenseController.postExpenseData);
+
+router.get('/expense/data',authentication.authenticate,expenseController.getAllExpenseDetails);
 
 router.get('/expense/delete/:dId',expenseController.deleteUserDetails);
 

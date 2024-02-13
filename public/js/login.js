@@ -4,28 +4,33 @@ const password = document.querySelector('#password');
 
 form.addEventListener('submit', checkUserCredentials);
 
-async function userExists(emailId, password) {
+async function userExists(email, password) {
     try {
+        const token = localStorage.getItem('token')
         const response = await axios.post('http://localhost:4000/expense/login', {
-            emailId: emailId,
-            password: password
+            emailId: email,
+            password: password,
+            token:token
         });
-        return response.status;
+        return { status: response.status, user: response.data };
     } catch (err) {
-        return err.response.status;
+        return { status: err.response.status };
     }
 }
 
 async function checkUserCredentials(e) {
     e.preventDefault();
     try {
-        const statusCode = await userExists(emailId.value, password.value);
-        if (statusCode === 200) {
-            alert('Logging Successfully');
-            window.location.href = "http://localhost:4000/expense"
-        } else if (statusCode === 401) {
+        const { status, user } = await userExists(emailId.value, password.value);
+        if (status === 200) {
+            alert('Logging in successfully');
+            const User = user.token
+            console.log(User)
+            localStorage.setItem('token',JSON.stringify(User))
+            window.location.href = "../views/index.html";
+        } else if (status === 401) {
             alert('Wrong credentials');
-        } else if (statusCode === 404) {
+        } else if (status === 404) {
             alert('User not found');
         } else {
             alert('An error occurred. Please try again later.');

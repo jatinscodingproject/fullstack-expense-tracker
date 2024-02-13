@@ -1,10 +1,10 @@
 const expenseDetails = require('../models/expensedata')
 
-exports.getUiPage = (req, res, next) => {
-    res.status(200).sendFile('index.html', {
-        root: 'views'
-    });
-}
+// exports.getUiPage = (req, res, next) => {
+//     res.status(200).sendFile('index.html', {
+//         root: 'views'
+//     });
+// }
 
 
 exports.postExpenseData = (req,res,next) => {
@@ -15,7 +15,8 @@ exports.postExpenseData = (req,res,next) => {
     .create({
         amount:amount,
         description:description,
-        category:category
+        category:category,
+        //UserDetailId:req.user.id
     })
     .then((details) => {
         console.log('data added successfully')
