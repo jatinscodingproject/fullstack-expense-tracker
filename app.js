@@ -1,5 +1,7 @@
 const express = require('express');
 
+require('dotenv').config()
+
 const app = express();
 
 const cors = require('cors');
@@ -12,13 +14,17 @@ const expenseRoutes = require('./routes/expenseroutes');
 
 const signupRoutes = require('./routes/signuproutes');
 
-const loginRoutes = require('./routes/loginroutes')
+const loginRoutes = require('./routes/loginroutes');
 
-const errorController = require('./controllers/error')
+const purchaseRoutes = require('./routes/purchaseroutes');
+
+const errorController = require('./controllers/error');
 
 const expenseModel = require('./models/expensedata')
 
 const userModel = require('./models/signup');
+
+const OrderModel = require('./models/order');
 
 app.use(cors());
 
@@ -36,8 +42,13 @@ app.use(signupRoutes)
 
 app.use(loginRoutes)
 
+app.use(purchaseRoutes)
+
 userModel.hasMany(expenseModel)
 expenseModel.belongsTo(userModel)
+
+userModel.hasMany(OrderModel);
+OrderModel.belongsTo(userModel)
 
 sequelize
     .sync()

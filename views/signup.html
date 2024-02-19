@@ -7,27 +7,43 @@
     <title>Expense Tracker app</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
-        </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
-    <link rel="stylesheet" href="../public/css/signup.css">
 </head>
 
 <body>
-    <div id="logo-container" class="container">
-        <img src="download.png" id="logo_img">
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div id="logo-container" class="text-center">
+                    <img src="download.png" id="logo_img" class="img-fluid">
+                </div>
+                <div id="form_container" class="mt-5">
+                    <h1 id="heading_tag" class="text-center">Expense Tracker app Signup page</h1>
+                    <form action="expense/signup" method="POST" id="form">
+                        <div class="mb-3">
+                            <label for="Username" class="form-label">Enter Your Name:</label>
+                            <input type="text" class="form-control" id="Username" name="Username"
+                                placeholder="Your Name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailId" class="form-label">Enter Your EmailId:</label>
+                            <input type="text" class="form-control" id="emailId" name="emailId" placeholder="Email ID">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Enter Your Password:</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password">
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                            <button type="submit" class="btn btn-success" id="sign_btn">Signup</button>
+                            <button type="button" class="btn btn-danger" id="login_btn">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="container" id="form_container">
-        <h1 id="heading_tag">Expense Tracker app Signup page</h1>
-        <form action="expense/signup" method = "Post" id="form">
-            <label>Enter Your Name: <input type="text" name="Username" id="Username" placeholder="Your name"></label><br><br>
-            <label>Enter Your EmailId: <input type="text" name="emailId" id="emailId" placeholder="emailId"></label><br><br>
-            <label>Enter Your Password:<input type="password" name="password" id="password" placeholder="password"></label><br><br>
-            <button type="submit" class="btn btn-success" id="sign_btn">Signup</button>
-            <button type="button" class="btn btn-danger" id="login_btn">login</button>
-        </form>
-    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
     <script src="../public/js/signup.js"></script>
 </body>
 

@@ -16,7 +16,7 @@ exports.postExpenseData = (req,res,next) => {
         amount:amount,
         description:description,
         category:category,
-        //UserDetailId:req.user.id
+        UserDetailId:req.user.id
     })
     .then((details) => {
         console.log('data added successfully')
@@ -29,7 +29,9 @@ exports.postExpenseData = (req,res,next) => {
 
 exports.getAllExpenseDetails = (req,res,next) => {
     expenseDetails
-        .findAll()
+        .findAll({where:{
+            UserDetailId : req.user.id
+        }})
         .then((details) => {
             res.json(details)
         })
@@ -42,7 +44,8 @@ exports.deleteUserDetails = (req,res,next) => {
     const dId = req.params.dId
     expenseDetails
         .destroy({where:{
-            id:dId
+            id:dId,
+            UserDetailId:req.user.id
         }})
         .then(result => {
             console.log('Data deleted successfully')

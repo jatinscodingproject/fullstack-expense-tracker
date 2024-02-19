@@ -26,7 +26,7 @@ async function checkUserCredentials(e) {
             alert('Logging in successfully');
             const User = user.token
             console.log(User)
-            localStorage.setItem('token',JSON.stringify(User))
+            localStorage.setItem('token',User)
             window.location.href = "../views/index.html";
         } else if (status === 401) {
             alert('Wrong credentials');
