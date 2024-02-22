@@ -40,3 +40,8 @@ async function checkUserCredentials(e) {
         alert('An error occurred. Please try again later.');
     }
 }
+
+document.getElementById('sign_btn').onclick = function(e){
+    e.preventDefault()
+    window.location.href = "../views/signup.html"
+}

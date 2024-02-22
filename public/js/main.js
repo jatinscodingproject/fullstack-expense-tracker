@@ -105,6 +105,12 @@ async function refresh() {
     try {
         const token = localStorage.getItem('token')
         console.log(token)
+        const decodedtoken = parseJwt(token)
+        console.log(decodedtoken)
+        const IsPremium = decodedtoken.IsPremiumUser
+        if(IsPremium){
+            showMessage()
+        }
         const response = await axios.get('http://localhost:4000/expense/data', {
             headers: {
                 'Authorization': token
@@ -117,25 +123,48 @@ async function refresh() {
 }
 document.addEventListener('DOMContentLoaded', refresh())
 
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
+function showMessage(){
+    const button = document.getElementById('buy_premium');
+    
+    button.style.display = 'none'
+    button.insertAdjacentText('afterend','You are Premium User');
+    showLeaderboard()
+}
+
 document.getElementById('buy_premium').onclick = async function (e) {
     try {
-        console.log(1)
         const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:4000/expense/premiumMembership', {
             headers: {
                 'Authorization': token
             }
         })
-        console.log(2)
         var options = {
             'key': response.data.key_id,
             'order_id': response.data.order.id,
             'handler': async function (response) {
-                await axios.post('http://localhost:4000/updateTransactionStatus', {
+                const res = await axios.post('http://localhost:4000/updateTransactionStatus', {
                     order_id: options.order_id,
                     payment_id: response.razorpay_payment_id
                 }, { headers: { 'Authorization': token } })
                 alert('You are Premium member Now')
+                const button = document.getElementById('buy_premium');
+                
+                button.style.display = 'none'
+                button.insertAdjacentText('afterend','You are Premium User');
+                console.log(res.data.token)
+                localStorage.setItem('token',res.data.token);
+                showLeaderboard()
             }
         }
         const rzp1 = new Razorpay(options);
@@ -149,4 +178,43 @@ document.getElementById('buy_premium').onclick = async function (e) {
     }catch(err){
         console.log(err)
     }
+}
+
+async function showLeaderboard(){
+    const container = document.getElementById('booking_field');
+    const leaderboardButton = document.createElement('button');
+    const linebreak = document.createElement('br')
+
+    
+    leaderboardButton.setAttribute.type = 'button'
+    leaderboardButton.className = 'btn btn-danger'
+    leaderboardButton.textContent = 'Show LeaderBoard'
+    leaderboardButton.setAttribute.id = 'leaderboard'
+
+    leaderboardButton.onclick = async function(e){
+        const token = localStorage.getItem('token');
+        console.log(token)
+        const responseleaders = await axios.get('http://localhost:4000/leaderboard', {
+            headers:{
+                'Authorization':token
+            }
+        })
+        console.log(responseleaders.data)
+        showLearders(responseleaders.data) 
+    }
+    
+    container.append(linebreak);
+    container.append(leaderboardButton);
+}
+
+function showLearders(leaderboard){
+    const container = document.getElementById('leaderboard_details')
+    const ultag = document.createElement('ul');
+    console.log(leaderboard)
+    leaderboard.forEach(leaders => {
+        const litag = document.createElement('li');
+        litag.textContent = `Name:-${leaders.UserName}  expenses:-${leaders.totalExpense}`
+        ultag.appendChild(litag)
+    })
+    container.appendChild(ultag)
 }

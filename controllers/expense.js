@@ -1,12 +1,5 @@
 const expenseDetails = require('../models/expensedata')
 
-// exports.getUiPage = (req, res, next) => {
-//     res.status(200).sendFile('index.html', {
-//         root: 'views'
-//     });
-// }
-
-
 exports.postExpenseData = (req,res,next) => {
     const amount = req.body.amount
     const description = req.body.description
@@ -17,12 +10,23 @@ exports.postExpenseData = (req,res,next) => {
         description:description,
         category:category,
         UserDetailId:req.user.id
-    })
-    .then((details) => {
-        console.log('data added successfully')
-        res.json(details)
-    })
-    .catch(err => {
+    }).then(expense => {
+        const totalExpense = Number(req.user.totalExpense) + Number(amount)
+        console.log('<<<<<<<<<<<<<<',req.user.id)
+        console.log('<<<<<<<<<<<<<<<<<<<<',req.user.totalExpense)
+        console.log(totalExpense)
+        req.user.update({
+            totalExpense:totalExpense
+        },{
+            where:{
+                id:req.user.id
+            }
+        }).then(async() => {
+            res.status(200).json(expense)
+        }).catch(err => {
+            console.log(err)
+        })
+    }).catch(err => {
         console.log(err)
     })
 }

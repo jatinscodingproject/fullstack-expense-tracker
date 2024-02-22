@@ -18,6 +18,8 @@ const loginRoutes = require('./routes/loginroutes');
 
 const purchaseRoutes = require('./routes/purchaseroutes');
 
+const leaderboardRoutes = require('./routes/premiumfeatures');
+
 const errorController = require('./controllers/error');
 
 const expenseModel = require('./models/expensedata')
@@ -43,6 +45,8 @@ app.use(signupRoutes)
 app.use(loginRoutes)
 
 app.use(purchaseRoutes)
+
+app.use(leaderboardRoutes)
 
 userModel.hasMany(expenseModel)
 expenseModel.belongsTo(userModel)
