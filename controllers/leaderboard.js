@@ -17,7 +17,8 @@ const PremiumUser = async (req,res,next) => {
         //     order:[['total_cost','DESC']]
         // }
             {
-                attributes:['UserName','totalExpense']
+                attributes:['UserName','totalExpense'],
+                order:[['totalExpense','Desc']]
             }
         );
 

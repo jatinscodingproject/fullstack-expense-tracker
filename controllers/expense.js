@@ -1,41 +1,36 @@
 const expenseDetails = require('../models/expensedata')
+const sequelize = require('../utils/db')
 
-exports.postExpenseData = (req,res,next) => {
-    const amount = req.body.amount
-    const description = req.body.description
-    const category = req.body.category
-    expenseDetails
-    .create({
-        amount:amount,
-        description:description,
-        category:category,
-        UserDetailId:req.user.id
-    }).then(expense => {
+exports.postExpenseData = async (req, res, next) => {
+    try{
+        const t = await sequelize.transaction()
+        const {amount,description,category} = req.body;
+        const expense = await expenseDetails.create({
+            amount:amount,
+            description:description,
+            category:category,
+            UserDetailId:req.user.id
+        },{transaction:t})
         const totalExpense = Number(req.user.totalExpense) + Number(amount)
-        console.log('<<<<<<<<<<<<<<',req.user.id)
-        console.log('<<<<<<<<<<<<<<<<<<<<',req.user.totalExpense)
-        console.log(totalExpense)
-        req.user.update({
-            totalExpense:totalExpense
-        },{
-            where:{
-                id:req.user.id
-            }
-        }).then(async() => {
-            res.status(200).json(expense)
-        }).catch(err => {
-            console.log(err)
+        const UpdateUsertable = await req.user.update({totalExpense:totalExpense},{where:{id:req.user.update},transaction:t})
+
+        Promise.all([expenseDetails,UpdateUsertable]).then(async () => {
+            await t.commit()
+            return res.status(200).json(expense)
         })
-    }).catch(err => {
+    }catch(err){
+        await t.rollback()
         console.log(err)
-    })
+    }
 }
 
-exports.getAllExpenseDetails = (req,res,next) => {
+exports.getAllExpenseDetails = (req, res, next) => {
     expenseDetails
-        .findAll({where:{
-            UserDetailId : req.user.id
-        }})
+        .findAll({
+            where: {
+                UserDetailId: req.user.id
+            }
+        })
         .then((details) => {
             res.json(details)
         })
@@ -44,22 +39,34 @@ exports.getAllExpenseDetails = (req,res,next) => {
         })
 }
 
-exports.deleteUserDetails = (req,res,next) => {
-    const dId = req.params.dId
-    expenseDetails
-        .destroy({where:{
-            id:dId,
-            UserDetailId:req.user.id
-        }})
-        .then(result => {
-            console.log('Data deleted successfully')
+exports.deleteUserDetails = async (req, res, next) => {
+    try{
+        const t = await sequelize.transaction()
+        const dId = req.params.dId
+        const deleteddata = expenseDetails
+            .destroy({
+                where: {
+                    id: dId,
+                    UserDetailId: req.user.id
+                },
+                attributes:['amount'],
+                transaction:t
+            })
+        const newamount = Number(req.user.totalExpense) - Number(amount)
+        console.log(newamount)
+        const updateUser = await req.user.update({totalExpense:newamount},{where:{id:req.user.id},transaction:t})
+
+        Promise.all([deleteddata,updateUser]).then(async() => {
+            await t.commit()
+            return res.json(deleteddata)
         })
-        .catch(err => {
+        }catch(err){
+            await t.rollback()
             console.log(err)
-        })
+        }
 }
 
-exports.editUserDetails = (req,res,next) => {
+exports.editUserDetails = (req, res, next) => {
     const eId = req.params.eId
     expenseDetails
         .findByPk(eId)
