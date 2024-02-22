@@ -1,12 +1,6 @@
 const UserDetails = require('../models/signup')
 const bcrypt = require('bcrypt')
 
-// exports.getUserPage = (req,res,next) => {
-//     res.status(200).sendFile('signup.html',{
-//         root:'views'
-//     })
-// }
-
 exports.postUserSignupDetails = async (req,res,next) => {
     const Username = req.body.Username;
     const emailId = req.body.emailId;

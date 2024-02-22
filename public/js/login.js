@@ -45,3 +45,8 @@ document.getElementById('sign_btn').onclick = function(e){
     e.preventDefault()
     window.location.href = "../views/signup.html"
 }
+
+document.getElementById('password_btn').onclick = function(e){
+    e.preventDefault()
+    window.location.href = "../views/forgotpassword.html"
+}
