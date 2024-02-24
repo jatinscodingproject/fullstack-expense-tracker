@@ -1,5 +1,5 @@
 const expenseDetails = require('../models/expensedata')
-const sequelize = require('../utils/db')
+const sequelize = require('../utils/db');
 
 exports.postExpenseData = async (req, res, next) => {
     try{
@@ -40,20 +40,21 @@ exports.getAllExpenseDetails = (req, res, next) => {
 }
 
 exports.deleteUserDetails = async (req, res, next) => {
+    const t = await sequelize.transaction()
     try{
-        const t = await sequelize.transaction()
         const dId = req.params.dId
-        const deleteddata = expenseDetails
+        const expensedata = await expenseDetails.findByPk(dId,{
+            attributes:['UserDetailId','amount']
+        })
+        const deleteddata = await expenseDetails
             .destroy({
                 where: {
                     id: dId,
                     UserDetailId: req.user.id
                 },
-                attributes:['amount'],
                 transaction:t
             })
-        const newamount = Number(req.user.totalExpense) - Number(amount)
-        console.log(newamount)
+        const newamount = Number(req.user.totalExpense) - Number(expensedata.amount)
         const updateUser = await req.user.update({totalExpense:newamount},{where:{id:req.user.id},transaction:t})
 
         Promise.all([deleteddata,updateUser]).then(async() => {

@@ -30,6 +30,8 @@ const userModel = require('./models/signup');
 
 const OrderModel = require('./models/order');
 
+const passwordModel = require('./models/Password');
+
 app.use(cors());
 
 app.use(express.static('public'));
@@ -57,6 +59,9 @@ expenseModel.belongsTo(userModel)
 
 userModel.hasMany(OrderModel);
 OrderModel.belongsTo(userModel)
+
+userModel.hasMany(passwordModel);
+passwordModel.belongsTo(userModel);
 
 sequelize
     .sync()

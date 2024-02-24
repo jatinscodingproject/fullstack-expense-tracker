@@ -39,7 +39,6 @@ function showDetails(expenseData) {
                         'Authorization': token
                     }
                 })
-                refresh()
             } catch (err) {
                 console.log(err)
             }
@@ -210,11 +209,14 @@ async function showLeaderboard(){
 function showLearders(leaderboard){
     const container = document.getElementById('leaderboard_details')
     const ultag = document.createElement('ul');
+    const h1 = document.createElement('h1');
+    h1.textContent = 'LeaderBoard'
     console.log(leaderboard)
     leaderboard.forEach(leaders => {
         const litag = document.createElement('li');
         litag.textContent = `Name:-${leaders.UserName}  expenses:-${leaders.totalExpense}`
         ultag.appendChild(litag)
     })
+    container.appendChild(h1)
     container.appendChild(ultag)
 }
