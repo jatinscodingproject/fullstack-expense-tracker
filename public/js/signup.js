@@ -28,6 +28,7 @@ async function adduserDetails(e) {
             // Username.value = ``
             // emailId.value = ``
             // password.value = ``
+            window.location.href = '../views/login.html'
         }
         window.location.href = '../views/login.html'
     } catch (err) {

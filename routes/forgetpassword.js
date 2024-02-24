@@ -4,6 +4,8 @@ const router = express.Router();
 
 const passwordResetController= require('../controllers/forgetpassword');
 
-router.post('/password/forgetPassword',passwordResetController.passwordResetLink)
+router.get('/forgetPassword/:id',passwordResetController.forgetPassword)
+
+router.post('/password/forgetPasswordlink',passwordResetController.passwordResetLink)
 
 module.exports = router

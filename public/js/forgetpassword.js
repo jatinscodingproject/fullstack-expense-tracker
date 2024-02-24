@@ -10,7 +10,7 @@ async function sendpasswordreset(e){
         const UserDetails = {
             emailId:emailId.value
         }
-        await axios.post('http://localhost:4000/password/forgetPassword',UserDetails);
+        await axios.post('http://localhost:4000/password/forgetPasswordlink',UserDetails);
     }catch(err){
         console.log(err)
     }

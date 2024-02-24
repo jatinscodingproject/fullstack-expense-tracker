@@ -134,6 +134,7 @@ function parseJwt (token) {
 
 function showMessage(){
     const button = document.getElementById('buy_premium');
+    const new_button = document.createElement('button');
     
     button.style.display = 'none'
     button.insertAdjacentText('afterend','You are Premium User');
@@ -183,12 +184,19 @@ async function showLeaderboard(){
     const container = document.getElementById('booking_field');
     const leaderboardButton = document.createElement('button');
     const linebreak = document.createElement('br')
+    const report_generation = document.createElement('button')
 
     
     leaderboardButton.setAttribute.type = 'button'
     leaderboardButton.className = 'btn btn-danger'
     leaderboardButton.textContent = 'Show LeaderBoard'
     leaderboardButton.setAttribute.id = 'leaderboard'
+    leaderboardButton.style.marginTop = "10px"
+
+    report_generation.setAttribute.type = 'button'
+    report_generation.className = 'btn btn-dark'
+    report_generation.textContent = 'Generate Report'
+    report_generation.style.marginTop = '10px'
 
     leaderboardButton.onclick = async function(e){
         const token = localStorage.getItem('token');
@@ -201,9 +209,15 @@ async function showLeaderboard(){
         console.log(responseleaders.data)
         showLearders(responseleaders.data) 
     }
-    
     container.append(linebreak);
     container.append(leaderboardButton);
+    container.append(linebreak);
+    container.append(report_generation);
+
+    report_generation.onclick = async function(e){
+        //e.preventDefault();
+        window.location.href = '../views/report.html'
+    }
 }
 
 function showLearders(leaderboard){
