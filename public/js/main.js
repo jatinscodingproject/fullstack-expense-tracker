@@ -216,7 +216,12 @@ async function showLeaderboard(){
 
     report_generation.onclick = async function(e){
         //e.preventDefault();
-        window.location.href = '../views/report.html'
+        console.log(1)
+        try{
+            window.location.href = '../views/report.html'
+        }catch(err){
+            console.log(err)
+        }
     }
 }
 

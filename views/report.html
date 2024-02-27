@@ -7,6 +7,11 @@
     <title>Expense Tracker app</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+        <style>
+            #Daily_report{
+                border-color: black;
+            }
+        </style>
 </head>
 
 <body>
@@ -30,7 +35,9 @@
                                     <td style="background-color: rgb(218, 218, 241);">Expenses</td>
                                 </tr>
                             </table>
-                        </div>
+                            <div class="row justify-content-center mt-5" id="pagination">
+
+                            </div>
                         </div>
                         <div class="mb-3">
                             <h6 id="report_type_tag" class="text-center">Yearly Report</h6>
@@ -53,15 +60,19 @@
                             </table>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                            <button type="button" class="btn btn-info" id="login_btn">Download Report</button>
+                            <button type="button" class="btn btn-info" id="download_btn">Download Report</button>
                         </div>
+                </div>
+                <div class="d-grid fap-2 d-md-flex justify-constent-md-between" id="fileurl..
+                ">
+
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
-    <script src="../public/js/forgetpassword.js"></script>
+    <script src="../public/js/UserReport.js"></script>
 </body>
 
 </html>

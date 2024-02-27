@@ -18,7 +18,7 @@ const loginRoutes = require('./routes/loginroutes');
 
 const purchaseRoutes = require('./routes/purchaseroutes');
 
-const leaderboardRoutes = require('./routes/premiumfeatures');
+const preminumfeatureRoutes = require('./routes/premiumfeatures');
 
 const forgetPasswordRoutes = require('./routes/forgetpassword');
 
@@ -31,6 +31,8 @@ const userModel = require('./models/signup');
 const OrderModel = require('./models/order');
 
 const passwordModel = require('./models/Password');
+
+const fileDownloadModel = require('./models/downloadfiles')
 
 app.use(cors());
 
@@ -50,7 +52,7 @@ app.use(loginRoutes)
 
 app.use(purchaseRoutes)
 
-app.use(leaderboardRoutes)
+app.use(preminumfeatureRoutes)
 
 app.use(forgetPasswordRoutes)
 
@@ -62,6 +64,9 @@ OrderModel.belongsTo(userModel)
 
 userModel.hasMany(passwordModel);
 passwordModel.belongsTo(userModel);
+
+userModel.hasMany(fileDownloadModel);
+fileDownloadModel.belongsTo(userModel);
 
 sequelize
     .sync()

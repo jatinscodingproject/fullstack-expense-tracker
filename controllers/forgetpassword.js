@@ -55,25 +55,69 @@ const passwordResetLink = async (req, res, next) => {
 
 const forgetPassword = (req, res, next) => {
     const id = req.params.id
-    console.log('<<<<<<<<<<<<<<<<<<<<<<<',2)
     ForgetPassword.findOne({
         where: {
             id: id
         }
     }).then((forgetPasswordReq) => {
         if (forgetPasswordReq) {
-            console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<,',1)
             forgetPasswordReq.update({ active: false })
             console.log(3)
-            res.status(200).sendFile('passwordreset.html', {
-                root: 'views'
-            })
+            res.status(200).sendFile(`<html>
+                                        <script>
+                                            function formsubmitted(e){
+                                                e.preventDefault();
+                                                console.log('called')
+                                            }
+                                        </script>
+                                        
+                                        <form action="/password/updatepassword/${id}" method="get">
+                                            <label for="newpassword">Enter New password</label>
+                                            <input name="newpassword" type="password" required></input>
+                                            <button>reset password</button>
+                                        </form>
+                                    </html>`)
             res.end()
         }
     })
 }
 
+const updatePassword = (req,res,next) => {
+    try{
+        const newPassword = req.query
+        const updatedpassword = req.params
+        ForgetPassword.findOne({where:{id: forgetPassword.id}}).then(resetpasswordRequest => {
+            User.findOne({where:{id:resetpasswordRequest.UserDetailId}}).then((user) => {
+                if(user){
+                    const saltRounds = 10
+                    bcrypt.genSalt(saltRounds , (err,salt) => {
+                        if(err){
+                            console.log(err)
+                            throw new Error(err)
+                        }
+                        bcrypt.hash(newPassword , salt ,(err,hash) => {
+                            if(err){
+                                console.log(err)
+                                throw new Error(err)
+                            }
+                            user.update({Password:hash}).then(() => {
+                                res.status(200).json({message:'Successfully updatednew password'})
+                            })
+                        })
+                    })
+
+                }else{
+
+                }
+            })
+        })
+    }catch(err){
+        console.log(err)
+        res.status(500).json({err,success:false})
+    }
+}
+
 module.exports = {
     passwordResetLink: passwordResetLink,
-    forgetPassword:forgetPassword
+    forgetPassword: forgetPassword
 }
