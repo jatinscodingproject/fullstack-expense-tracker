@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const AWS = require('aws-sdk');
 const downloadfiles = require('../models/downloadfiles');
 const expenseDetails = require('../models/expensedata');
-const DATA_PER_PAGE = 10
+const DATA_PER_PAGE = 5
 
 function uploadToS3(data, filename) {
     const BUCKET_NAME = process.env.BUCKET_NAME
@@ -76,16 +76,18 @@ const generateUserReport = async (req,res,next) => {
     try{
         const id = req.user.id
         const page = +req.query.page || 1;
+        console.log(page)
         let totalDataPage;
         return expenseDetails.findAll({
             where:{
                     id:req.user.id
             },
-            offset: (page - 1) * 10,
-            limit: 10
+            offset: (page - 1) * DATA_PER_PAGE,
+            limit: DATA_PER_PAGE
         })
         .then((expenses) => {
-            res.status(200).json({
+            console.log(expenses)
+            return res.status(200).json({
                 expenses:expenses,
                 currentPage:page,
                 hasNextPage:DATA_PER_PAGE * page < totalDataPage,

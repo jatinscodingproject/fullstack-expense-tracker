@@ -43,9 +43,12 @@ async function generate_report_data(){
             'Authorization':token
         }
     })
-    console.log(res.data)
-    generateReport(res.data.expenses)
-    showPagination(res.data)
+    .then(({data}) =>{
+        console.log(data)
+        generateReport(data.expenses)
+        showPagination(data)
+    })
+    .catch(err => console.log(err))
 }
 
 async function generateReport(data){
@@ -95,23 +98,33 @@ function showPagination({
     if(hasPreviousPage){
         const btn2 = document.createElement('button');
         btn2.innerHTML = previousPage
-        btn2.addEventListener('click', () => generateReportPage())
+        btn2.addEventListener('click', () => generateReportPage(previousPage))
         pagination.appendChild(btn2)
     }
     const btn1 = document.createElement('button')
     btn1.innerHTML = `<h3>${currentPage}</h3>`
-    btn1.addEventListener('click',() => generateReportPage())
+    btn1.addEventListener('click',() => generateReportPage(currentPage))
     pagination.appendChild(btn1)
     if(hasNextPage){
         const btn3 = document.createElement('button')
         btn3.innerHTML = nextPage
-        btn3.addEventListener('click', () => generateReportPage())
+        btn3.addEventListener('click', () => generateReportPage(nextPage))
         pagination.appendChild(btn3)
     }
 }
 
-function generateReportPage(){
-    
+function generateReportPage(page){
+    const token = localStorage.getItem('token')
+    axios.get(`http://localhost:4000/User/report/generation?pages=${page}`,{
+        headers:{
+            'Authorization':token
+        }
+    })
+    console.log(1)
+    .then(({data}) => {
+        generateReport(data.expenses)
+        showPagination(data)
+    })
 }
 
 document.addEventListener('DOMContentLoaded', generate_report_data)
