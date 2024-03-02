@@ -2,8 +2,8 @@ const expenseDetails = require('../models/expensedata')
 const sequelize = require('../utils/db');
 
 exports.postExpenseData = async (req, res, next) => {
+    const t = await sequelize.transaction()
     try{
-        const t = await sequelize.transaction()
         const {amount,description,category} = req.body;
         const expense = await expenseDetails.create({
             amount:amount,
